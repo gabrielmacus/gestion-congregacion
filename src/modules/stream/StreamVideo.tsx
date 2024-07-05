@@ -2,17 +2,10 @@ import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import Hls from "hls.js"
 import { Spin } from "antd"
-import ReactTimeout from 'react-timeout'
 
 
 const Container = styled.div`
 
-`
-const VideoPlayer = styled.video`
-height:50vh;
-width:100%;
-border:none;
-background-color:black;
 `
 
 const VideoContainer = styled.div`

@@ -6,6 +6,7 @@ export interface StreamUserData {
 }
 export interface StreamAuthContextProps {
     userData?: StreamUserData
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
     setUserData: (data: StreamUserData) => any
     verifyAuth:()=>boolean
 }
@@ -25,9 +26,10 @@ export default function StreamAuthProvider(props: PropsWithChildren) {
     const verifyAuth = () => {
         if(userData) return true
         try{
-            const data = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}")
+            /* eslint-disable  @typescript-eslint/no-explicit-any */
+            const data:any = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}")
             if(!data.name || !data.participants || isNaN(data.participants)) return false
-            setUserData(data)
+            setUserData(data as StreamUserData)
         }
         catch(e) { 
             console.debug(e)
