@@ -44,6 +44,7 @@ export default function StreamVideo(props: StreamVideoProps) {
     const uri = `${import.meta.env.VITE_STREAM_URL}/${props.stream_id}/stream.m3u8`
     const [hlsSupported, setHlsSupported] = useState<boolean>()
     const [errorMessage, setErrorMessage] = useState<string>()
+    const lastStreamStatus = useRef<("IDLE" | "LOADED")>("IDLE")
 
     useEffect(() => {
         setHlsSupported(Hls.isSupported());
@@ -69,6 +70,7 @@ export default function StreamVideo(props: StreamVideoProps) {
             setErrorMessage(undefined)
             console.debug('Manifest loaded, found ' + data.levels.length + ' quality level',);
             playerRef.current!.play()
+            lastStreamStatus.current = "LOADED"
         });
 
         hls.on(Hls.Events.ERROR, (evt, data) => {
@@ -77,7 +79,8 @@ export default function StreamVideo(props: StreamVideoProps) {
                 if (data.details === 'manifestIncompatibleCodecsError') {
                     setErrorMessage("Su dispositivo no soporta la reproducción de video en formato HLS")
                 } else if (data.response && data.response.code === 404) {
-                    setErrorMessage("La transmisión aún no ha iniciado")
+                    if (lastStreamStatus.current == 'IDLE') setErrorMessage("La transmisión aún no ha iniciado")
+                    if (lastStreamStatus.current == 'LOADED') setErrorMessage("Transmisión finalizada")
                 } else {
                     setErrorMessage("Error al reproducir la transmisión. Reintentando...")
                 }
