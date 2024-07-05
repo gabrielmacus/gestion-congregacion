@@ -59,14 +59,14 @@ export default function StreamVideo(props: StreamVideoProps) {
             console.debug('Video and hls.js are now bound together');
             hls.loadSource(uri);
         });
-        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        hls.on(Hls.Events.MANIFEST_PARSED, function (_, data) {
             setErrorMessage(undefined)
             console.debug('Manifest loaded, found ' + data.levels.length + ' quality level',);
             playerRef.current!.play()
             lastStreamStatus.current = "LOADED"
         });
 
-        hls.on(Hls.Events.ERROR, (evt, data) => {
+        hls.on(Hls.Events.ERROR, (_, data) => {
             if (data.fatal) {
                 hls.destroy();
                 if (data.details === 'manifestIncompatibleCodecsError') {
