@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import Hls from "hls.js"
-import { Spin } from "antd"
+import { Modal, Spin } from "antd"
+import { EyeOutlined } from "@ant-design/icons"
 
 
 const Container = styled.div`
@@ -22,11 +23,20 @@ font-size:1.5rem;
 font-weight:600;
 text-align:center;
 `
-const VideoControls = styled.div``
+const ViewersCount = styled.div`
+background-color:#616161;
+color: white;
+font-weight: 600;
+display: flex;
+justify-content: flex-end;
+padding: 0.5rem;
+`
 
 
 export interface StreamVideoProps {
-    stream_id: string
+    streamId: string
+    viewersCount?: number
+    onShowParticipants?: () => any
 }
 const RETRY_PAUSE = 5000
 
@@ -34,7 +44,7 @@ const RETRY_PAUSE = 5000
 //OEFTQEfcO9Skw0i1Pp4vI7f7vJwrEJ
 export default function StreamVideo(props: StreamVideoProps) {
     const playerRef = useRef<HTMLVideoElement>(null)
-    const uri = `${import.meta.env.VITE_STREAM_URL}/${props.stream_id}/stream.m3u8`
+    const uri = `${import.meta.env.VITE_STREAM_URL}/${props.streamId}/stream.m3u8`
     const [hlsSupported, setHlsSupported] = useState<boolean>()
     const [errorMessage, setErrorMessage] = useState<string>()
     const lastStreamStatus = useRef<("IDLE" | "LOADED")>("IDLE")
@@ -77,15 +87,11 @@ export default function StreamVideo(props: StreamVideoProps) {
                 } else {
                     setErrorMessage("Error al reproducir la transmisión. Reintentando...")
                 }
-
-
-
                 setTimeout(() => loadHls(), RETRY_PAUSE);
             }
         });
 
         hls.attachMedia(playerRef.current!)
-
     }
 
     const goLive = () => {
@@ -101,11 +107,12 @@ export default function StreamVideo(props: StreamVideoProps) {
                 display: hlsSupported === true && !errorMessage ? 'block' : 'none'
             }}>
                 <video controls onPlay={goLive} ref={playerRef} style={{ width: '100%', height: '100%' }} />
-                <VideoControls>
-
-                </VideoControls>
             </div>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </VideoContainer>
+
+        <ViewersCount>
+            <span onClick={()=>props.onShowParticipants?.()}><EyeOutlined /> {props.viewersCount} {props.viewersCount == 1 ? 'lo está viendo' : 'lo están viendo'}</span>
+        </ViewersCount>
     </Container>
 }
