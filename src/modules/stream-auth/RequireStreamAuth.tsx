@@ -8,7 +8,7 @@ export default function RequireStreamAuth(props: PropsWithChildren) {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!context.verifyAuth()) navigate("/streaming/login")
+        if (!context.verifyAuth()) return navigate("/streaming/login")
     }, [])
 
 

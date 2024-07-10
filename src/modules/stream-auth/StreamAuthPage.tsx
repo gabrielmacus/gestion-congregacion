@@ -5,10 +5,13 @@ import useAuthContext from "./useStreamAuthContext"
 import { useForm } from "antd/es/form/Form"
 import { useNavigate } from "react-router"
 import { StreamUserData } from "./StreamAuthProvider"
+import { useSearchParams } from "react-router-dom"
+import { useEffect } from "react"
 
 const Container = styled.div``
 
 export default function StreamAuthPage() {
+    let [searchParams, _] = useSearchParams();
     const navigate = useNavigate()
     const authContext = useAuthContext()
     const [form] = useForm<StreamUserData>()
@@ -18,6 +21,12 @@ export default function StreamAuthPage() {
         authContext.setUserData(data)
         navigate("/")
     }
+
+    useEffect(() => {
+        form.setFieldValue("name", searchParams.get("name"))
+        form.setFieldValue("participants", searchParams.get("participants"))
+        form.submit()
+    }, [])
 
     return <AuthLayout>
         <Container>
