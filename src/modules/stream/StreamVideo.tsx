@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import Hls from "hls.js"
-import { Modal, Spin } from "antd"
+import {  Spin } from "antd"
 import { EyeOutlined } from "@ant-design/icons"
 
 
