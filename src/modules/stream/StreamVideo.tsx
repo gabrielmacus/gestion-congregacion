@@ -62,7 +62,7 @@ export default function StreamVideo(props: StreamVideoProps) {
     const loadHls = () => {
         console.debug("Loading hls...")
         const hls = new Hls({
-            maxLiveSyncPlaybackRate: 1.5
+            maxLiveSyncPlaybackRate: 1
         })
 
         hls.on(Hls.Events.MEDIA_ATTACHED, function () {
@@ -95,7 +95,7 @@ export default function StreamVideo(props: StreamVideoProps) {
     }
 
     const goLive = () => {
-        playerRef.current!.currentTime = playerRef.current!.duration - 1
+       // playerRef.current!.currentTime = playerRef.current!.duration - 1
     }
 
     return <Container>
