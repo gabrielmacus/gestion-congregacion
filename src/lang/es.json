@@ -1,0 +1,28 @@
+{
+    "validation.requiredField":"Campo requerido",
+    "validation.maxLength":"El campo debe tener un largo máximo de {{length}}",
+
+    "table.actions":"Acciones",
+    "table.empty":"Sin datos para mostrar",
+
+    "confirm.title":"Confirmar acción",
+    "confirm.ok":"Aceptar",
+    "confirm.cancel":"Cancelar",
+
+    "error.400":"Error de validación. Verifique los datos ingresados.",
+    "error.404":"Datos no encontrados.",
+    "error.401":"No tiene permisos para ver los datos solicitados.",
+    "error.500":"Error al realizar la consulta.",
+    "error.network":"Error de conexión con el servidor.",
+    "error.unknown":"Error desconocido.",
+
+    "saving":"Guardando...",
+    "saving.success":"Guardado con éxito.",
+    "loadingItem":"Cargando datos...",
+    "loadingItem.success":"Datos cargados con éxito.",
+
+    "publisher.table.name":"Nombre",
+    "publisher.table.surname":"Apellido",
+    "publisher.table.title":"Publicadores",
+    "publisher.table.empty":"No hay publicadores para mostrar"
+}
