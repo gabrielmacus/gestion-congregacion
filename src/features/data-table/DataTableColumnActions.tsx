@@ -1,6 +1,8 @@
 import { CellContext } from "@tanstack/react-table"
-import { Button, Popover, Space } from "antd"
 import { useTranslation } from "react-i18next"
+import Button from "../form/Button"
+import { Popover, PopoverButton } from "@headlessui/react"
+import PopoverPanel from "../modal/PopoverPanel"
 
 export interface ColumnAction<T> {
     label: string
@@ -18,16 +20,21 @@ export default function DataTableColumnActions<T>(props: DataTableColumnActionsP
     const { t } = useTranslation()
 
     return (
-        <Popover placement="bottomRight" trigger={"click"} content={<Space direction="vertical" >
-            {props.actions.map((action, index) =>
-                <Button
-                    style={{ width: "100%", minWidth: "120px" }}
-                    key={index}
-                    danger={action.danger}
-                    onClick={() => action.fn(props.cellContext.row.original)}>{action.label}</Button>
-            )}
-        </Space>}>
-            <Button>{t("table.actions")}</Button>
+        <Popover  >
+            <PopoverButton as="div">
+                <Button>{t("table.actions")}</Button>
+            </PopoverButton>
+            <PopoverPanel className={"grid gap-1"} anchor={{
+                to: "bottom end",
+                gap:5
+            }}>
+                {props.actions.map((action, index) =>
+                    <Button
+                        style={{ width: "100%", minWidth: "120px" }}
+                        key={index}
+                        onClick={() => action.fn(props.cellContext.row.original)}>{action.label}</Button>
+                )}
+            </PopoverPanel>
         </Popover>
     )
 }

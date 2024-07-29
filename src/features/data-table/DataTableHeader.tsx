@@ -16,10 +16,11 @@ export default function DataTableHeader<T>(props: DataTableHeaderProps<T>) {
     return <tr key={props.headerGroup.id}>
         {props.headerGroup.headers.map(header => (
             <th key={header.id}
+                className="px-6 py-4"
                 colSpan={header.colSpan}
                 style={{ width: `${header.getSize()}%` }}
             >
-                <div>
+                <div className="flex gap-2 items-center">
                     {header.isPlaceholder
                         ? null
                         : flexRender(

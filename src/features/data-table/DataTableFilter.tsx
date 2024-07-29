@@ -1,19 +1,25 @@
 import { Column } from "@tanstack/react-table";
-import { Button, Form, Input, InputNumber, Popover, Select, Space } from "antd";
-import styled from "styled-components";
+import { Select } from "antd";
 import { DataTableColumnDef } from "./DataTable";
 import { useState } from "react";
-import { FilterFilled, FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { PopoverButton, Popover } from "@headlessui/react";
+import { FunnelIcon as FunnelSolid, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { FunnelIcon as FunnelOutline } from "@heroicons/react/24/outline";
+import Input from "../form/Input";
+import Button from "../form/Button";
+import Form from "../form/Form";
+import PopoverPanel from "../modal/PopoverPanel";
+import Field from "../form/Field";
 
-const Container = styled.div``
-const FilterToggle = styled.div`
-cursor:pointer;
-`
 
 export interface DataTableFilterProps<T> {
     columnDef?: DataTableColumnDef<T>
     column: Column<T>
     onFilter: () => Promise<any>
+}
+
+interface FilterModel {
+    filter: any
 }
 
 export default function DataTableFilter<T>(props: DataTableFilterProps<T>) {
@@ -30,54 +36,76 @@ export default function DataTableFilter<T>(props: DataTableFilterProps<T>) {
     }
 
     return !type ? undefined :
-        <Container>
-            <Popover
-                trigger={"click"}
-                content={<Form
-                >
-                    {type == 'text' &&
-                        <Space>
-                            <Input
-                                disabled={loading}
-                                onChange={(evt) => props.column.setFilterValue(evt.target.value)}
-                                value={value}
-                                allowClear
-                            />
-                            <Button htmlType="submit" onClick={onFilter} loading={loading} icon={<SearchOutlined />} />
-                        </Space>}
-                    {type == 'number' &&
-                        <Space>
-                            <InputNumber
-                                disabled={loading}
-                                onChange={(evt) => props.column.setFilterValue(evt?.toString())}
-                                value={value}
-                            />
-                            <Button htmlType="submit" onClick={onFilter} loading={loading} icon={<SearchOutlined />} />
-                        </Space>
-                    }
-                    {type == 'select' &&
-                        <Space>
-                            <Select
-                                allowClear
-                                onChange={(val: any) => props.column.setFilterValue(val.toString())}
-                                value={value}
-                            >
-                                {props.columnDef!.meta!.options!.map(o =>
-                                    <Select.Option
-                                        key={o.value}
-                                        value={o.value}>{o.label}</Select.Option>)}
-                            </Select>
-                            <Button htmlType="submit" onClick={onFilter} loading={loading} icon={<SearchOutlined />} />
-                        </Space>
-                    }
-                </Form>}
-            >
-                <FilterToggle>
-                    {!isFiltered && <FilterOutlined />}
-                    {isFiltered && <FilterFilled />}
-                </FilterToggle>
-            </Popover>
+        <Popover>
+            <PopoverButton as="div" className={"outline-none"}>
+                {isFiltered ? <FunnelSolid className="w-4" /> : <FunnelOutline className="w-4" />}
+            </PopoverButton>
+            <PopoverPanel >
+                {({ close }) =>
+                    <Form<FilterModel>
+                        onSubmit={({ value }) => {
 
-        </Container>
+                        }}
+                    >
+                        {(Form) => <>
+                            {type == 'text' &&
+
+                                <div className="flex">
+                                    <Form.Field
+                                        name="filter"
+                                    >
+                                        {field => <Field field={field}>
+                                            <Input
+                                                name={'filter'}
+                                                disabled={loading}
+                                                value={value}
+                                            />
+                                        </Field>}
+                                    </Form.Field>
+                                    <Button
+                                        type="submit"
+                                        onClick={async () => {
+                                            await onFilter()
+                                            close()
+                                        }}
+                                    ><MagnifyingGlassIcon className="h-5" /></Button>
+                                </div>
+                            }
+                            {type == 'number' &&
+                                <div>
+                                    <Input
+                                        type="number"
+                                        disabled={loading}
+                                        onChange={(evt) => props.column.setFilterValue(evt.target.value)}
+                                        value={value}
+                                    />
+                                    <Button type="submit" onClick={async () => {
+                                        await onFilter()
+                                        close()
+                                    }} />
+                                </div>
+                            }
+                            {type == 'select' &&
+                                <div>
+                                    <select
+                                        onChange={(val: any) => props.column.setFilterValue(val.toString())}
+                                        value={value}
+                                    >
+                                        {props.columnDef!.meta!.options!.map(o =>
+                                            <Select.Option
+                                                key={o.value}
+                                                value={o.value}>{o.label}</Select.Option>)}
+                                    </select>
+                                    <button type="submit" onClick={async () => {
+                                        await onFilter()
+                                        close()
+                                    }} />
+                                </div>
+                            }
+
+                        </>}
+                    </Form>}
+            </PopoverPanel>
+        </Popover>
 
 }

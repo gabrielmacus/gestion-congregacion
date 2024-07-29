@@ -1,60 +1,12 @@
-import { useReactTable, getCoreRowModel, ColumnDef, ColumnFiltersState, flexRender } from "@tanstack/react-table"
+import { useReactTable, getCoreRowModel, ColumnDef, ColumnFiltersState } from "@tanstack/react-table"
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react"
-import styled from "styled-components"
 import { ODataResponse, Query, RequestResult } from "../requests/useApi"
 import useRequestHandler from "../requests/useRequestHandler"
 import DataTablePagination from "./DataTablePagination"
-import { theme as antdTheme } from 'antd'
 import 'react-loading-skeleton/dist/skeleton.css'
 import DataTableHeader from "./DataTableHeader"
 import DataTableRow from "./DataTableRow"
 import DataTableEmpty from "./DataTableEmpty"
-
-const Container = styled.div``
-
-interface StyledTableProps {
-    color: string
-    bgcolor: string
-    bdcolor: string
-}
-const Title = styled.h3<{ bg: string }>`
-background-color: ${props => props.bg};
-color: black;
-margin:0;
-padding:12px 0px 0px 15px;
-font-size:1.25rem;
-`
-const StyledTable = styled.table<StyledTableProps>`
-width: 100%;
-border-collapse: collapse;
-font-size: 0.9em;
-text-align: left;
-
-thead tr {
-    background: ${props => props.bgcolor};
-    color:  ${props => props.color};
-    text-align: left;
-}
-th, td {
-    padding: 12px 15px;
-}
-th > div {
-    display: flex;
-    align-items: center;
-    gap:1rem;
-    width:100%;
-}
-tbody tr {
-    //border-bottom: 1px solid #dddddd;
-    background-color:white;
-}
-tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-tbody tr:last-of-type {
-    border-bottom: 2px solid ${props => props.bdcolor};
-}
-`
 
 export interface DataTableProps<T> {
     title?: string
@@ -81,8 +33,7 @@ export interface DataTableRef {
 }
 
 function DataTable<T>(props: DataTableProps<T>, ref?: ForwardedRef<DataTableRef>) {
-    const { useToken } = antdTheme
-    const { token: theme } = useToken()
+
 
     const { handleRequest } = useRequestHandler()
     const [data, setData] = useState<T[]>([])
@@ -150,17 +101,16 @@ function DataTable<T>(props: DataTableProps<T>, ref?: ForwardedRef<DataTableRef>
         loadData: () => loadData()
     }))
 
-    return <Container>
+    return (<div className="rounded-lg overflow-hidden shadow-sm">
+
         {props.title &&
-            <Title bg={theme.colorPrimaryBg}>
+            <h3 className="text-xl px-6 py-3 text-white bg-gray-600 font-semibold" >
                 {props.title}
-            </Title>}
-        <StyledTable
-            bgcolor={theme.colorPrimaryBg}
-            color={theme.colorPrimaryText}
-            bdcolor={theme.colorPrimary}
+            </h3>}
+        <table
+            className="w-full text-left text-xs  rtl:text-right text-black"
         >
-            <thead>
+            <thead className="uppercase bg-gray-700   text-white">
                 {table.getHeaderGroups().map(headerGroup =>
                     <DataTableHeader
                         key={headerGroup.id}
@@ -169,7 +119,7 @@ function DataTable<T>(props: DataTableProps<T>, ref?: ForwardedRef<DataTableRef>
                         onFilter={loadData}
                     />)}
             </thead>
-            <tbody>
+            <tbody className="bg-gray-100 ">
                 {!loading ?
                     table.getRowModel().rows.map(row =>
                         <DataTableRow
@@ -189,15 +139,14 @@ function DataTable<T>(props: DataTableProps<T>, ref?: ForwardedRef<DataTableRef>
                 }
                 {!loading && table.getRowModel().rows.length == 0 && <DataTableEmpty message={props.noDataMessage} />}
             </tbody>
-        </StyledTable>
+        </table>
 
         <DataTablePagination
             loading={loading}
             pageCount={table.getPageCount()}
             onPageChange={(pageNumber) => table.setPageIndex(pageNumber)}
         />
-
-    </Container >
+    </div>)
 }
 
 export default forwardRef(DataTable) as

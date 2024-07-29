@@ -2,6 +2,7 @@ import { PropsWithChildren, useState } from "react"
 import styled from "styled-components"
 import AdminNavbar from "../common/AdminNavbar"
 import Sidebar from "../common/Sidebar"
+import { Toaster } from "react-hot-toast"
 
 const Body = styled.div``
 const Container = styled.div`
@@ -20,7 +21,7 @@ padding:2rem 2rem;
 export default function AdminLayout(props: PropsWithChildren) {
     const [showSidebar, setShowSidebar] = useState(window.innerWidth > 768)
 
-    return <Container className={`${showSidebar ? "show-sidebar" : ""}`}>
+    return <Container className={`${showSidebar ? "show-sidebar" : ""} bg-white`}>
         <Sidebar />
         <Body>
             <AdminNavbar onToggleSidebar={() => setShowSidebar(!showSidebar)} />
@@ -28,5 +29,6 @@ export default function AdminLayout(props: PropsWithChildren) {
                 {props.children}
             </Content>
         </Body>
+        <Toaster />
     </Container>
 }

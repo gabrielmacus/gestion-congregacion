@@ -31,9 +31,9 @@ export default function DataTableRow<T>(props: DataTableRowProps<T>) {
                     <Skeleton />
                 </td>)}
         </tr> :
-        <tr key={props.row?.id}>
+        <tr key={props.row?.id} className="border-solid border-b border-gray-200 last:border-0" >
             {props.row?.getVisibleCells().map(cell => (
-                <td key={cell.id} align={getColumnDef(cell.column.id)!.meta?.cellAlign}>
+                <td className="border-r last:border-r-0 border-gray-200 px-6 py-2" key={cell.id} align={getColumnDef(cell.column.id)!.meta?.cellAlign}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
             ))}
