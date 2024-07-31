@@ -27,7 +27,7 @@ export default function StreamAuthProvider(props: PropsWithChildren) {
         if(userData) return true
         try{
             /* eslint-disable  @typescript-eslint/no-explicit-any */
-            const data:any = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}")
+            const data:any = {} //JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}")
             if(!data.name || !data.participants || isNaN(data.participants)) return false
             setUserData(data as StreamUserData)
         }
