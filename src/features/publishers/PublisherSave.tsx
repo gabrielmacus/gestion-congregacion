@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import usePublisherApi, { Publisher } from "./usePublisherApi";
 import { useParams } from "react-router";
-import DataForm from "../form/DataForm";
-import AdminLayout from "../layouts/AdminLayout";
-import Input from "../form/Input";
-import Field from "../form/Field";
+import DataForm from "../core/form/DataForm";
+import AdminLayout from "../core/layouts/AdminLayout";
+import Input from "../core/form/Input";
+import Field from "../core/form/Field";
 import { z } from 'zod'
 
 export default function PublisherSave() {

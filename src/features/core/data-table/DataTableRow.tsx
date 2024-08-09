@@ -1,4 +1,3 @@
-import Skeleton from "react-loading-skeleton"
 import { DataTableColumnDef } from "./DataTable"
 import { Row, flexRender } from "@tanstack/react-table"
 
@@ -24,18 +23,16 @@ export default function DataTableRow<T>(props: DataTableRowProps<T>) {
      */
     const getColumnDef = (id: string) => props.columnDefs.find(c => c.id == id)
 
-    return props.loading ?
-        <tr  >
-            {props.columnDefs.map((_, i) =>
-                <td key={i}>
-                    <Skeleton />
-                </td>)}
-        </tr> :
-        <tr key={props.row?.id} className="border-solid border-b border-gray-200 last:border-0" >
-            {props.row?.getVisibleCells().map(cell => (
+    return <tr key={props.row?.id} className="even:bg-gray-50 border-solid 
+        border-b border-gray-200 last:border-0" >
+        {props.loading ? props.columnDefs.map((_, i) =>
+            <td key={i} className="p-5">
+                <div className="h-2.5 animate-pulse bg-gray-200 w-full"></div>
+            </td>) :
+            props.row?.getVisibleCells().map(cell => (
                 <td className="border-r last:border-r-0 border-gray-200 px-6 py-2" key={cell.id} align={getColumnDef(cell.column.id)!.meta?.cellAlign}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
             ))}
-        </tr>
+    </tr>
 }

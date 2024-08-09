@@ -1,13 +1,15 @@
-import AdminLayout from "../layouts/AdminLayout";
+import AdminLayout from "../core/layouts/AdminLayout";
 import usePublisherApi, { Publisher } from "./usePublisherApi";
-import DataTable, { DataTableColumnDef, DataTableRef } from "../data-table/DataTable";
+import DataTable, { DataTableColumnDef, DataTableRef } from "../core/data-table/DataTable";
 import { useTranslation } from "react-i18next";
-import { Query } from "../requests/useApi";
-import DataTableColumnActions from "../data-table/DataTableColumnActions";
+import { Query } from "../core/requests/useApi";
+import DataTableColumnActions from "../core/data-table/DataTableColumnActions";
 import { useNavigate } from "react-router";
-import useConfirmDialog from "../modal/useConfirmDialog";
+import useConfirmDialog from "../core/modal/useConfirmDialog";
 import { useRef } from "react";
+import DataTableSimpleFilter from "../core/data-table/DataTableSimpleFilter";
 
+const ADD_PATH = "/admin/publicadores/crear"
 export default function PublisherList() {
     const api = usePublisherApi()
     const { t } = useTranslation()
@@ -17,36 +19,37 @@ export default function PublisherList() {
 
     const columns: DataTableColumnDef<Publisher>[] = [
         {
-            header: "Id",
+            header: t("table.id"),
             accessorKey: "Id",
             id: "id",
-            size:10,
-            meta: {
-                columnFilter: (value) => [`Id eq ${value}`],
-                filterType: 'number',
+            size: 10,
+            filter: {
+                element: column =>
+                    <DataTableSimpleFilter type="number" column={column} />,
+                parse: (value) => value.filter ? [`Id eq ${value.filter}`] : []
             }
-
         },
         {
             header: t("publisher.table.surname"),
             accessorKey: "Surname",
             id: "surname",
             size: 40,
-            meta: {
-                columnFilter: (value) => [`contains(Surname,'${value}')`],
-                filterType: 'text'
+            filter: {
+                element: column =>
+                    <DataTableSimpleFilter column={column} />,
+                parse: (value) => value.filter ? [`Contains(Surname, '${value.filter}')`] : []
             }
         },
         {
             header: t("publisher.table.name"),
             accessorKey: "Name",
             id: "name",
-            size:40,
-            meta: {
-                columnFilter: (value) => [`contains(Name,'${value}')`],
-                filterType: 'text'
-            },
-
+            size: 40,
+            filter: {
+                element: column =>
+                    <DataTableSimpleFilter column={column} />,
+                parse: (value) => value.filter ? [`Contains(Name, '${value.filter}')`] : []
+            }
         },
         {
             header: "",
@@ -76,6 +79,9 @@ export default function PublisherList() {
             onFetchData={(query?: Query) => api.read({ ...{ $count: true }, ...query })}
             columnDefs={columns}
             noDataMessage={t("publisher.table.empty")}
+            actions={[
+                { label: t("publisher.add"), value: () => navigate(ADD_PATH) }
+            ]}
         />
     </AdminLayout>
 }

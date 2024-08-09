@@ -1,6 +1,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import StreamLayout from "../layouts/StreamLayout"
+import StreamLayout from "../core/layouts/StreamLayout"
 import StreamVideo from "./StreamVideo"
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr"
 import useStreamAuthContext from "../stream-auth/useStreamAuthContext"

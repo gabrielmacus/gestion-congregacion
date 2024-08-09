@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import UserBadge from "../common/UserBadge";
+import UserBadge from "../core/common/UserBadge";
 import useStreamAuthContext from "../stream-auth/useStreamAuthContext";
 
 const Container = styled.div`

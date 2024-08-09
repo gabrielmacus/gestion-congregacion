@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import AuthLayout from "../layouts/AuthLayout"
+import AuthLayout from "../core/layouts/AuthLayout"
 import { Button, Form, Input, InputNumber } from "antd"
 import useAuthContext from "./useStreamAuthContext"
 import { useForm } from "antd/es/form/Form"

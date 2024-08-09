@@ -15,7 +15,7 @@ export interface DataFormProps<T extends BaseModel> {
     onCreate: (data: T) => Promise<RequestResult<T>>
     onUpdate: (data: Partial<T>, id: number) => Promise<RequestResult<void>>
 
-    children: (Form: ReturnType<typeof useForm<Partial<T>, ReturnType<typeof zodValidator>>>) => React.ReactNode
+    children: (Form: ReturnType<typeof useForm<T, ReturnType<typeof zodValidator>>>) => React.ReactNode
     defaultValues?: Partial<T>
 
     notFoundPath?: string
@@ -23,7 +23,7 @@ export interface DataFormProps<T extends BaseModel> {
 }
 
 export interface DataFormRef<T extends BaseModel> {
-    form: FormApi<Partial<T>, ReturnType<typeof zodValidator>>
+    form: FormApi<T, ReturnType<typeof zodValidator>>
 }
 
 function DataForm<T extends BaseModel>(
@@ -47,7 +47,7 @@ function DataForm<T extends BaseModel>(
         if (result?.data) {
             toast.loading(t('loadingItem.success'), { id: 'loading', duration: 1000 })
             //@ts-ignore
-            for (const key in result.data) formRef.current.setFieldValue(key, result.data[key])
+            for (const key in result.data) formRef.current.form.setFieldValue(key, result.data[key])
             toast.success(t('loadingItem.success'), { id: 'loading', duration: 1000 })
         }
         else {
@@ -88,6 +88,7 @@ function DataForm<T extends BaseModel>(
 
 
     return <Form<T>
+        defaultValues={props.defaultValues}
         ref={formRef}
         onSubmit={({ value }) => onSave(value)}
     >

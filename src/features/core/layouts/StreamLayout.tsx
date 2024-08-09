@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
-import StreamNavbar from "../stream/StreamNavbar";
+import StreamNavbar from "../../stream/StreamNavbar";
 
 const Container = styled.div``
 const Content = styled.div` 

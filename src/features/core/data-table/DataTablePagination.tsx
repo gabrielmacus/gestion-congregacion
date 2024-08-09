@@ -6,13 +6,12 @@ export interface DataTablePaginationProps {
     pageRangeDisplayed?: number
     marginPagesDisplayed?: number
     onPageChange: (pageNumber: number) => void
-    loading:boolean
+    loading?:boolean
 }
 export default function DataTablePagination(props: DataTablePaginationProps) {
 
     return <ReactPaginate
-        className="w-full text-sm gap-5 items-center h-12 flex justify-center 
-        select-none font-semibold bg-gray-200 text-gray-500"
+        className="flex font-semibold "
         pageCount={props.pageCount}
         pageRangeDisplayed={props.pageRangeDisplayed}
         marginPagesDisplayed={props.marginPagesDisplayed}

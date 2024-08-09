@@ -1,4 +1,4 @@
-import useApi, { BaseModel } from "../requests/useApi";
+import useApi, { BaseModel } from "../core/requests/useApi";
 
 export interface Publisher extends BaseModel {
     Name:string

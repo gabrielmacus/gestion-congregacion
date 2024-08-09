@@ -18,13 +18,13 @@ export default function Field<T>(props: FieldProps<T>) {
         <div className={`${props.hidden ? 'hidden' : ''}`}>
             {props.label &&
                 <label className="mb-1 block text-sm">
-                    {props.label}
+                    {props.label} 
                     {props.required && <span className="text-red-600"> *</span>}
                 </label>}
-            <div  >
+            <div>
                 {props.children}
             </div>
-            {props.field.state.meta.errors ? (
+            {props.field.state.meta.errors.length> 0 ? (
                 <em role="alert" className="mt-1 block not-italic text-red-500  text-sm">
                     {props.field.state.meta.errors.join('. ')}</em>
             ) : null}

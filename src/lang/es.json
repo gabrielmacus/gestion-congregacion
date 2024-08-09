@@ -1,6 +1,16 @@
 {
+    "weekDays": {
+        "mon": "Lunes",
+        "tue": "Martes",
+        "wed": "Miércoles",
+        "thu": "Jueves",
+        "fri": "Viernes",
+        "sat": "Sábado",
+        "sun": "Domingo"
+    },
     "validation.requiredField":"Campo requerido",
     "validation.maxLength":"El campo debe tener un largo máximo de {{length}}",
+    "validation.shouldBeNumber":"El campo debe ser un número",
 
     "table.actions":"Acciones",
     "table.empty":"Sin datos para mostrar",
@@ -21,8 +31,10 @@
     "loadingItem":"Cargando datos...",
     "loadingItem.success":"Datos cargados con éxito.",
 
+    "table.id":"Id",
     "publisher.table.name":"Nombre",
     "publisher.table.surname":"Apellido",
     "publisher.table.title":"Publicadores",
-    "publisher.table.empty":"No hay publicadores para mostrar"
+    "publisher.table.empty":"No hay publicadores para mostrar",
+    "publisher.add":"Agregar publicador"
 }
