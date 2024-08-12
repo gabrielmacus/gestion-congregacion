@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 
 
 export interface CalendarOptions {
-    weekStart?: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
+    firstDay?: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
 }
 
 export interface CalendarProps {
@@ -11,34 +11,30 @@ export interface CalendarProps {
     options: CalendarOptions
 }
 
+
 export default function Calendar(props: CalendarProps) {
     const { t } = useTranslation()
-    const weekStart = props.options.weekStart ?? 'mon'
+    const firstDay = props.options.firstDay ?? 'mon'
     const weekDays: { [key: string]: string }[] = t("weekDays", { returnObjects: true })
 
-    function generateCalendarDays() {
-        const days = []
-        const firstDay = new Date(props.year, props.month + 1, 1)
-        const lastDay = new Date(props.year, props.month + 2, 0)
-        const firstDayWeekDay = firstDay.getDay()
-        const lastDayWeekDay = lastDay.getDay()
+    function generateCalendarDays(month: number, year: number) {
+        month-=1
+        
+        const monthStart = Date.UTC(year, month + 1, 1)
+        const monthEnd = Date.UTC(year, month + 2, 0)
 
-        for (let i = 0; i < firstDayWeekDay; i++) {
-            days.push(null)
-        }
+        const monthStartDay = Intl.DateTimeFormat('en', { weekday: 'short' }).format(monthStart).toLowerCase()
+        const monthEndDay = Intl.DateTimeFormat('en', { weekday: 'short' }).format(monthEnd).toLowerCase()
 
-        for (let i = 1; i <= lastDay.getDate(); i++) {
-            days.push(i)
-        }
 
-        for (let i = lastDayWeekDay; i < 6; i++) {
-            days.push(null)
-        }
 
-        return days
+        //console.log(monthStartDay, monthEndDay)
+
+
+        return []
     }
 
-    console.log(generateCalendarDays())
+    console.log(generateCalendarDays(8, 2024))
     return <div>a</div>
 
 }
