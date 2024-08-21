@@ -12,7 +12,7 @@ export interface DateTimePickerProps {
 }
 
 export default function DateTimePicker(props: DateTimePickerProps) {
- 
+
   const getIcon = () => {
     switch (props.type) {
       case 'date':
@@ -32,7 +32,11 @@ export default function DateTimePicker(props: DateTimePickerProps) {
 
   return <div>
 
-  <Calendar year={2024} month={8} options={{}} />
+    <Calendar
+      year={2024}
+      month={8}
+      options={{ firstWeekDay: 'mon' }}
+    />
   </div>
 
 }
