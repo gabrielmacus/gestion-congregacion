@@ -1,6 +1,6 @@
 import { CheckCircleIcon, ChevronDownIcon } from "@heroicons/react/24/solid"
 import Input from "./Input"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useEffect, useMemo, useState } from "react"
 import OutsideClickHandler from 'react-outside-click-handler';
 import { Float } from '@headlessui-float/react'
 import { ChevronUpIcon } from "@heroicons/react/16/solid";
@@ -15,11 +15,14 @@ export interface SelectProps<T> {
     onChange?: (value: T) => void
     value?: any
     className?: string
+    type?: 'default' | 'text'
 }
 
 export default function Select<T>(props: SelectProps<T>) {
     const [open, setOpen] = useState(false)
-
+    const selectedOption = useMemo(() => props.options
+        .find(option => option.value == props.value)?.label ?? props.value,
+        [props.value])
 
 
     return (
@@ -39,12 +42,19 @@ export default function Select<T>(props: SelectProps<T>) {
                     adaptiveWidth
                     show={open}>
                     <div >
-                        <Input
-                            onClick={() => setOpen(!open)}
-                            readOnly
-                            className="*:cursor-pointer font-medium"
-                            value={props.options.find(option => option.value == props.value)?.label ?? props.value}
-                            icon={open ? <ChevronUpIcon /> : <ChevronDownIcon />} />
+                        {(!props.type || props.type == 'default') &&
+                            <Input
+                                onClick={() => setOpen(!open)}
+                                readOnly
+                                className="*:cursor-pointer font-medium"
+                                value={selectedOption}
+                                icon={open ? <ChevronUpIcon /> : <ChevronDownIcon />} />}
+                        {props.type == 'text' &&
+                            <span
+                                className="*:cursor-pointer font-medium"
+                                onClick={() => setOpen(!open)}>
+                                {selectedOption}
+                            </span>}
                     </div>
                     <div>
                         <div className="shadow-md bg-gray-200 overflow-hidden rounded-md">
@@ -58,7 +68,7 @@ export default function Select<T>(props: SelectProps<T>) {
                         text-sm ${option.value == props.value ? 'font-medium' : ''}`}>
                                     {option.label}
                                     {option.value == props.value &&
-                                        <CheckCircleIcon className="fill-primary w-5" />}
+                                        <CheckCircleIcon className="fill-primary-500 w-5" />}
                                 </div>
                             )}
                         </div>

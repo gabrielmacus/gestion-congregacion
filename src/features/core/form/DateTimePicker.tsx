@@ -33,8 +33,9 @@ export default function DateTimePicker(props: DateTimePickerProps) {
   return <div>
 
     <Calendar
-      year={2024}
-      month={8}
+      onChange={(year,month)=>{}}
+      selectedDates={[new Date(2024,7,23,0,0,0)]}
+      type="single"
       options={{ firstWeekDay: 'mon' }}
     />
   </div>

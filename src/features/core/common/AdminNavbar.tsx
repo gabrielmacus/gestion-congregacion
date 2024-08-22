@@ -5,16 +5,16 @@ export interface AdminNavbarProps {
 export default function AdminNavbar(props: AdminNavbarProps) {
 
 
-    return <div className="bg-primary" >
+    return <div className="bg-primary-500" >
         <button data-drawer-target="logo-sidebar"
             data-drawer-toggle="logo-sidebar"
             aria-controls="logo-sidebar"
             type="button"
-            onClick={()=>props.onToggleSidebar()}
-            className="inline-flex items-center p-3 text-sm text-primary-contrast 
-         hover:bg-primary-hover transition-all 
-          border-none outline-none
-        ">
+            onClick={() => props.onToggleSidebar()}
+            className="inline-flex items-center p-3 text-sm 
+            text-primary-contrast-500 
+            hover:bg-primary-400 hover:text-primary-contrast-400 transition-all 
+            border-none outline-none">
             <span className="sr-only">Open sidebar</span>
             <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path clipRule="evenodd" fillRule="evenodd"
